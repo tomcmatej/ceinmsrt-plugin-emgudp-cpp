@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<execution xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../XSD/execution.xsd">
+  <NMSmodel>
+     <type>
+        <realTime>
+        	<openLoop/>
+        </realTime>
+     </type>
+
+     <tendon>
+          <stiff/>
+     </tendon>
+
+     <activation>
+          <exponential/>
+     </activation>
+  	 <curve>
+  		<online/>
+  	 </curve>
+  </NMSmodel>
+  
+  <ConsumerPlugin>
+	<EMGDevice>plugin/EMG_Delsys/bin/Win/Debug/EMG_Delsys.dll</EMGDevice>
+	<!-- <EMGDevice>emg_0_plugins.dll</EMGDevice> -->
+	<EMGDeviceFile>executionEMG_ankle_knee.xml</EMGDeviceFile>
+	<AngleDevice>angle_0_plugins.dll</AngleDevice>
+	<AngleDeviceFile>cfg/Guillaume/executionIK_scale.xml</AngleDeviceFile>
+	<TorqueDevice/>
+	<TorqueDeviceFile/>
+    <ComsumerPort>350</ComsumerPort>
+    <!-- <AngleAndComsumerDevice>C:/Users/labuser/Documents/CEINMS/plugin/Twincat3/bin/Win/Debug/PluginPositionAndTorqueTwinCat.dll</AngleAndComsumerDevice> -->
+  </ConsumerPlugin>
+  <NameOfSubject>Guillaume</NameOfSubject>
+</execution>

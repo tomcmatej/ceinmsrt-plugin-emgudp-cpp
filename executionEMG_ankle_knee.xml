@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<executionEMG xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../XSD/executionEMG.xsd">
+  <ip>192.168.10.50</ip>
+  <port>1234</port>
+  <hpFilter>
+    <aCoeff>-1.6475 0.7009</aCoeff>
+    <bCoeff>0.8371 -1.6742 0.8371</bCoeff>
+  </hpFilter>
+  <lpFilter>
+    <aCoeff>-1.8935 0.8989</aCoeff>
+    <bCoeff>0.0013 0.0027 0.0013</bCoeff>
+  </lpFilter>
+  <dcFilter>
+    <aCoeff>-1.98698392338007 0.987068086539154</aCoeff>
+    <bCoeff>-1.974 0.9743</bCoeff>
+  </dcFilter>
+  <maxEMG>0.000731269237588676 0 0 0 0 0 0 0 0.000297826565233209 0.000275060601748212 0.000240019111177882 8.36453481195734e-005 0 0 0 0</maxEMG>
+</executionEMG>
