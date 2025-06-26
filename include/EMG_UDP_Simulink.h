@@ -2,14 +2,20 @@
 #define EMG_UDP_SIMULINK_H_
 
 #define WIN32_LEAN_AND_MEAN
-#include <windows.h>
-#include <winsock2.h>
-#include <ws2tcpip.h>
-#include <stdio.h>
+// No need for Windows-specific socket headers
+
 #include <string>
+#include <vector> // Required for std::vector<double> maxAmp_
+
+// --- Unix Socket Includes ---
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <unistd.h>
+#include <cstring>
 
 #include "execution.hxx"
-#include "ExecutionEmgXml.h"
+#include "ExecutionEmgXml.h" // Assumed to expose getMaxEmg() and setMaxEmg()
 #include "ProducersPluginVirtual.h"
 #include "NMSmodel.hxx"
 #include <Filter.h>
@@ -19,11 +25,10 @@
 #include <thread>
 #include <mutex>
 #include <condition_variable>
-#include <GetTime.h>
-
+#include <getTime.h>
+#include <memory>
 
 #ifdef WIN32
-
 class __declspec(dllexport) EMGUDPSimulink : public ProducersPluginVirtual
 #endif
 #if UNIX
@@ -120,7 +125,7 @@ protected:
 	double timeSafe_; //!< Thread safe time stamp for getTime() method
 	double timeInit_;
 
-	std::thread* feederThread; //!< Boost thread for the filtering of the data
+	std::shared_ptr<std::thread> feederThread; //!< Thread for the filtering of the data
 
 
 	std::mutex DataMutex_; //!< Mutex for the data
@@ -149,8 +154,11 @@ protected:
 
 	ExecutionEmgXml* _executionEmgXml;
 
-	SOCKET emgSock;		//EMG socket
+	int emgSockFd;		//EMG socket file descriptor
 
+    // --- NEW: For maxAmp calibration and normalization ---
+    std::vector<double> maxAmp_;            // Stores the maximum amplitude for each EMG channel
+    // calibrationMode_ and enableNormalization_ are now implicitly handled
 };
 
 #endif
