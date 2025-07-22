@@ -247,6 +247,8 @@ void EMGUDPSimulink::EMGFeed()
         std::cerr << "Warning: setsockopt(SO_RCVTIMEO) failed for EMG socket: " << strerror(errno) << std::endl;
     }
 
+    int receiveCnt = 0; // Counter for received packets DEBUG
+
 	while (threadEnd_) { // Loop as long as the `threadEnd_` flag is true
 		std::vector<double> tempEMGdata;
 		tempEMGdata.resize(NBOFCHANNEL); // Resize vector to hold expected number of channels
@@ -271,6 +273,7 @@ void EMGUDPSimulink::EMGFeed()
                 break;
             }
             // Report other (unexpected) receive errors
+
 			std::cerr << "EMG Receive Failed: " << strerror(errno) << std::endl;
 			break; // Fatal error, break the loop
 		}
@@ -279,8 +282,15 @@ void EMGUDPSimulink::EMGFeed()
         }
 
 		emgUDPBuffer[bytesRead] = '\0'; // Null-terminate the received string for C string functions
-		std::cout << "EMG_UDP_Simulink: Received " << bytesRead << " bytes. Content: '" << emgUDPBuffer << "'" << std::endl; // MODIFIED THIS LINE
+		
         
+        receiveCnt++;
+        if (receiveCnt>=1000) {
+            std::cout << "EMG_UDP_Simulink: Received " << bytesRead << " bytes. Content: '" << emgUDPBuffer << "'" << std::endl; // MODIFIED THIS LINE     
+            receiveCnt=0;
+        }
+
+
         // --- NEW: Robust Parsing (replacing strtok) ---
         std::string received_str(emgUDPBuffer);
         
